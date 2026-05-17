@@ -15,13 +15,13 @@ import { defineConfig, devices } from '@playwright/test';
 export default defineConfig({
   testDir: './tests',
   /* Run tests in files in parallel */
-  fullyParallel: true,
+  fullyParallel: false, // ✅ UBAH: false agar test jalan satu-satu
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
+  workers: 1, // ✅ UBAH: 1 agar tidak buka banyak browser sekaligus
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
@@ -32,7 +32,11 @@ export default defineConfig({
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
-  video: 'retain-on-failure',
+    video: 'retain-on-failure',
+
+    slowMo: 500,               // ✅ TAMBAH: jeda 500ms tiap aksi agar keliatan jelas
+    actionTimeout: 15000,      // ✅ TAMBAH: timeout tiap action (click, fill, dll)
+    navigationTimeout: 30000,  // ✅ TAMBAH: timeout navigasi antar halaman
   },
 
   
@@ -72,4 +76,3 @@ export default defineConfig({
   // },
   
 });
-
